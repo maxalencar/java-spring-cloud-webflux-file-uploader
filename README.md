@@ -39,7 +39,7 @@ Update these lines below to your database configuration:
 Run the project and verify it's working
 Now, you are ready to run CS Event Uploader with the following command. 
 
-1. Inside the discover-service folder run the code below:
+1. Inside the discovery-service folder run the code below:
 
 	gradle bootRun
 
