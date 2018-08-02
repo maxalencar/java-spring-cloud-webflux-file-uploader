@@ -1,0 +1,57 @@
+<div class="container">
+  <div class="row">
+    <div class="col d-flex justify-content-center">
+        <img width="300" height="100" alt="Angular Logo" src="../assets/upload-logo.png">
+    </div>
+  </div>
+  <div class="row">
+    <div class="col p-3 d-flex justify-content-center">
+        <div class="alert alert-success" role="alert" *ngIf="file && file.isSuccess">
+          File uploaded successfully!
+        </div>
+
+        <div class="alert alert-danger" role="alert" *ngIf="file && file.isError">
+          Something went wrong!
+        </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col p-3 d-flex justify-content-center">
+      <input type="file" name="file" ng2FileSelect [uploader]="uploader" />
+    </div>
+    <div class="col p-3 d-flex justify-content-center">
+      <button type="button" class="btn btn-success btn-s" 
+      (click)="uploader.uploadAll()" 
+      [disabled]="!uploader.getNotUploadedItems().length">
+          Upload a File
+      </button>
+    </div>
+  </div>
+  
+  <div class="row">
+    <div class="col p-3 d-flex justify-content-center">
+        <table class="table" *ngIf="events && events.length > 0">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">ID</th>
+              <th scope="col">Duration</th>
+              <th scope="col">Type</th>
+              <th scope="col">Host</th>
+              <th scope="col">Alert</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let event of events; let i = index">
+              <th scope="row">{{i + 1}}</th>
+              <td>{{ event.id }}</td>
+              <td>{{ event.timestamp }} ms</td>
+              <td>{{ event.type }}</td>
+              <td>{{ event.host }}</td>
+              <td>{{ event.alert }}</td>
+            </tr>
+          </tbody>
+        </table>
+    </div>
+</div>
+
