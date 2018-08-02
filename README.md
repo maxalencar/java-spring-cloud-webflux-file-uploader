@@ -61,11 +61,11 @@ If you are using another client, please use the URL <code> http://localhost:8089
 
 If you want to send it by command line it works as well, for example using [cURL](https://curl.haxx.se/), see example below.
 
-curl -X POST -F file=@URL_FILE http://localhost:8089/upload
+	curl -X POST -F file=@URL_FILE http://localhost:8089/upload
 
 To fetch all events from database use the command:
 
-curl http://localhost:8089/upload
+	curl http://localhost:8089/upload
 
 If you make a get request it will return all events, if you make a post request it will upload your file.
 
