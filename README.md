@@ -1,7 +1,6 @@
 ## CS Event Uploader
 **The CS Event Uploader**
 
-This project provides an API Gateway built on top of the Spring Ecosystem, including: Spring 5, Spring Boot 2 and Project Reactor.
 This project provides a reactive microservice inside Spring Cloud ecosystem, which contains such the elements like service discovery with Eureka, load balancing and API gateway using Spring Cloud Gateway (also based on WebFlux and Netty).
 
 ##### Getting Set Up
@@ -17,7 +16,7 @@ You should be familiar with working with the Gradle, at least to a basic degree,
 
 ##### NPM
 
-[NPM](https://www.npmjs.com/) is the package manager for JavaScript and the world’s largest software registry. Discover packages of reusable code — and assemble them in powerful new ways.
+[NPM](https://www.npmjs.com/) is the package manager for JavaScript and the worldâ€™s largest software registry. Discover packages of reusable code â€” and assemble them in powerful new ways.
 
 ##### Angular CLI
 
