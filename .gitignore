@@ -2,6 +2,7 @@
 .project
 .classpath
 .gradle
+.idea
 build
 bin
 db

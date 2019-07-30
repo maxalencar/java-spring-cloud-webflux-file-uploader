@@ -1,19 +1,8 @@
-buildscript {
-	ext {
-		springBootVersion = '2.0.4.RELEASE'
-	}
-	repositories {
-		mavenCentral()
-	}
-	dependencies {
-		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-	}
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '2.1.6.RELEASE'
+	id 'io.spring.dependency-management' version '1.0.7.RELEASE'
 }
-
-apply plugin: 'java'
-apply plugin: 'eclipse'
-apply plugin: 'org.springframework.boot'
-apply plugin: 'io.spring.dependency-management'
 
 group = 'com.cs'
 version = '1.0.0'
@@ -24,9 +13,8 @@ repositories {
 }
 
 ext {
-	springCloudVersion = 'Finchley.SR1'
+	set('springCloudVersion', "Greenwich.SR2")
 }
-
 
 dependencies {
 	compile('org.springframework.cloud:spring-cloud-starter-netflix-eureka-server')
