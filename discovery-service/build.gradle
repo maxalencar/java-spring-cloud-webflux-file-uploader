@@ -1,27 +1,26 @@
 plugins {
 	id 'java'
-	id 'org.springframework.boot' version '2.1.6.RELEASE'
-	id 'io.spring.dependency-management' version '1.0.7.RELEASE'
+	id 'org.springframework.boot' version '3.2.5'
+	id 'io.spring.dependency-management' version '1.1.4'
 }
 
 group = 'com.cs'
 version = '1.0.0'
-sourceCompatibility = 1.8
 
 repositories {
 	mavenCentral()
 }
 
 ext {
-	set('springCloudVersion', "Greenwich.SR2")
+	set('springCloudVersion', "2023.0.1")
+}
+
+java {
+	sourceCompatibility = JavaVersion.VERSION_21
 }
 
 dependencies {
-	compile('org.springframework.cloud:spring-cloud-starter-netflix-eureka-server')
-	compile('com.sun.xml.bind:jaxb-impl:2.3.0.1')
-	compile('com.sun.xml.bind:jaxb-core:2.3.0.1')
-	compile('javax.activation:activation:1.1')
-	compile('javax.xml.bind:jaxb-api')
+	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-server'
 }
 
 dependencyManagement {

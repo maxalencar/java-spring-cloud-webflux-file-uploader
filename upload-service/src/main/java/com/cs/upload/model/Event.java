@@ -1,9 +1,6 @@
 package com.cs.upload.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import jakarta.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -18,6 +15,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class Event {
 
 	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name = "ID")
 	private String id;
 
