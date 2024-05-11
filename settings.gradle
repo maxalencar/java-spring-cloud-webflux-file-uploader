@@ -1,6 +1,6 @@
 rootProject.name = 'spring-cloud-webflux-angular-upload'
 
 include 'discovery-service'
-include 'upload-service'
+include 'uploader-service'
 include 'gateway-service'
-include 'upload-client'
+include 'uploader-client'

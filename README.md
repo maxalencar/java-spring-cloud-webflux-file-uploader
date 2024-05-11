@@ -43,7 +43,7 @@ Now, you are ready to run CS Event Uploader with the following command.
 
 	gradle bootRun
 
-2. Inside the upload-service folder run the code below:
+2. Inside the uploader-service folder run the code below:
 
 	gradle bootRun
 
@@ -51,11 +51,11 @@ Now, you are ready to run CS Event Uploader with the following command.
 
 	gradle bootRun
 
-4. Inside the upload-client folder run the code below: (Optional)
+4. Inside the uploader-client folder run the code below: (Optional)
 
 	npm start
 
-If you are using the upload client for test, Angular Live Development Server is listening on localhost:4200, open your browser on <code> http://localhost:4200/ </code>.
+If you are using the uploader client for test, Angular Live Development Server is listening on localhost:4200, open your browser on <code> http://localhost:4200/ </code>.
 
 If you are using another client, please use the URL <code> http://localhost:8089/upload </code>.
 

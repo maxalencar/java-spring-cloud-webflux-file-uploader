@@ -25,8 +25,8 @@ spring:
         locator:
           enabled: true
       routes:
-      - id: upload-service
-        uri: lb://upload-service
+      - id: uploader-service
+        uri: lb://uploader-service
         predicates:
         - Path=/upload/**
         filters:
