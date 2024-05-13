@@ -1,90 +1,24 @@
 package com.cs.uploader.model;
 
-import jakarta.persistence.*;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.Data;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
- * 
  * @author Max.Alencar
- *
  */
-@Entity
-@Table(name = "EVENTS")
+@Document
 @JsonIgnoreProperties(ignoreUnknown = true)
+@Data
 public class Event {
 
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name = "ID")
-	private String id;
-
-	@Column(name = "DURATION")
-	private Long timestamp;
-
-	@Column(name = "TYPE")
-	private String type;
-
-	@Column(name = "HOST")
-	private String host;
-
-	@Column(name = "ALERT")
-	private Boolean alert;
-	
-	private transient String state;
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
-
-	public Long getTimestamp() {
-		return timestamp;
-	}
-
-	public void setTimestamp(Long timestamp) {
-		this.timestamp = timestamp;
-	}
-
-	public String getType() {
-		return type;
-	}
-
-	public void setType(String type) {
-		this.type = type;
-	}
-
-	public String getHost() {
-		return host;
-	}
-
-	public void setHost(String host) {
-		this.host = host;
-	}
-	
-	public Boolean getAlert() {
-		return alert;
-	}
-
-	public void setAlert(Boolean alert) {
-		this.alert = alert;
-	}
-
-	public String getState() {
-		return state;
-	}
-
-	public void setState(String state) {
-		this.state = state;
-	}
-
-	@Override
-	public String toString() {
-		return "Event{id=" + id + ", timestamp=" + timestamp + ", type=" + type + ", host=" + host + ", alert=" + alert + ", state=" + state
-				+ "}";
-	}
+    @Id
+    private String id;
+    private Long timestamp;
+    private String type;
+    private String host;
+    private Boolean alert;
+    private transient String state;
 
 }

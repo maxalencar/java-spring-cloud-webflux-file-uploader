@@ -1,0 +1,5 @@
+services:
+  discovery:
+    build: .
+    ports:
+      - 8761:8761

@@ -4,3 +4,6 @@ server:
 spring:
   application:
     name: uploader-service
+  docker:
+    enabled: true
+    file: compose.yaml

@@ -30,12 +30,12 @@ public class EventServiceImpl implements EventService {
 	
 	@Override
 	public Flux<Event> findAll() {
-		return Flux.fromIterable(repository.findAll()).log();
+		return repository.findAll().log();
 	}
 	
 	@Override
 	public Mono<Event> save(Event event) {
-		return Mono.justOrEmpty(repository.save(event)).log();
+		return repository.save(event).log();
 	}
 
 	@Override
@@ -44,7 +44,7 @@ public class EventServiceImpl implements EventService {
             logger.info("Creating event with details {}", event);
             repository.save(event);
         }).doOnError(throwable -> {
-            logger.error("Error in creating event {}", throwable);
+            logger.error("Error in creating event", throwable);
         }).log();
     }
 	

@@ -4,6 +4,9 @@ server:
 spring:
   application:
     name: discovery-service
+  docker:
+    enabled: true
+    file: compose.yaml
     
 eureka:
   instance:

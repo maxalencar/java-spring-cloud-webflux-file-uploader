@@ -1,0 +1,45 @@
+services:
+  discovery:
+    build: discovery-service/.
+    ports:
+      - 8761:8761
+  gateway:
+    build: gateway-service/.
+    ports:
+      - 8090:8090
+    depends_on:
+      - discovery
+      - uploader
+    links:
+      - discovery
+      - uploader
+  uploader:
+    build: uploader-service/.
+    ports:
+      - 2222:2222
+    depends_on:
+      - discovery
+      - mongodb
+    links:
+      - discovery
+      - mongodb
+  mongodb:
+    image: 'mongo:latest'
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: secret
+      MONGO_INITDB_DATABASE: mydatabase
+    ports:
+      - 27017:27017
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: secret
+      ME_CONFIG_MONGODB_URL: mongodb://root:secret@mongodb:27017/
+      ME_CONFIG_BASICAUTH: false
+    depends_on:
+      - mongodb

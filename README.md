@@ -6,33 +6,13 @@ This project provides a reactive microservice inside Spring Cloud ecosystem, whi
 ##### Getting Set Up
 
 Before working on CS Event Uploader, you'll need to ensure you have a few requirements installed; all of which are available across Linux, Mac OS X and Windows.<br> 
-You will need Java 8, Gradle and NPM (Optional if you would like to use the client designed with angular to test the upload service, also Angular CLI, otherwise you can use any rest client such as postman) installed before configuring the project.
+You will need Java 21 and Gradle
 
 ##### Gradle
 
 [Gradle](https://gradle.org/) is used for building, distributing and running CS Event Uploader.
 
 You should be familiar with working with the Gradle, at least to a basic degree, before beginning work on this project.
-
-##### NPM
-
-[NPM](https://www.npmjs.com/) is the package manager for JavaScript and the world’s largest software registry. Discover packages of reusable code — and assemble them in powerful new ways.
-
-##### Angular CLI
-
-[Angular CLI](https://cli.angular.io/) a command line interface for Angular that makes it easy to create an application that already works, right out of the box.
-
-
-#### Configure your HSQLDB database
-
-Look it up for <code> /api/src/main/resources/application.properties </code> which contains the database configuration.
-
-Update these lines below to your database configuration:
-
-	spring.datasource.url=jdbc:hsqldb:file:db/db
-	spring.datasource.username=sa 
-	spring.datasource.password=
-
 
 #### Running the project
 
@@ -41,31 +21,41 @@ Now, you are ready to run CS Event Uploader with the following command.
 
 1. Inside the discovery-service folder run the code below:
 
-	gradle bootRun
+   gradle bootRun
 
 2. Inside the uploader-service folder run the code below:
 
-	gradle bootRun
+   gradle bootRun
 
 3. Inside the gateway-service folder run the code below:
 
-	gradle bootRun
+   gradle bootRun
 
-4. Inside the uploader-client folder run the code below: (Optional)
+[//]: # (From the root folder run the code below:)
 
-	npm start
+[//]: # ()
+[//]: # (	gradle bootRun)
 
-If you are using the uploader client for test, Angular Live Development Server is listening on localhost:4200, open your browser on <code> http://localhost:4200/ </code>.
+#### File Format
 
-If you are using another client, please use the URL <code> http://localhost:8089/upload </code>.
+```code
+{"id":"scsmbstgrd", "state":"FINISHED", "type":"APPLICATION_LOG", "host":"123456", "timestamp":1491377495217} 
+{"id":"scsmbstgra", "state":"STARTED", "type":"APPLICATION_LOG", "host":"12345", "timestamp":1491377495212} 
+{"id":"scsmbstgrb", "state":"STARTED", "timestamp":1491377495213} 
+{"id":"scsmbstgrd", "state":"STARTED", "type":"APPLICATION_LOG", "host":"123456", "timestamp":1491377495202} 
+{"id":"scsmbstgrc", "state":"FINISHED", "timestamp":1491377495218} 
+{"id":"scsmbstgra", "state":"FINISHED", "type":"APPLICATION_LOG", "host":"12345", "timestamp":1491377495217} 
+{"id":"scsmbstgrc", "state":"STARTED", "timestamp":1491377495210} 
+{"id":"scsmbstgrb", "state":"FINISHED", "timestamp":1491377495216}
+```
 
 If you want to send it by command line it works as well, for example using [cURL](https://curl.haxx.se/), see example below.
 
-	curl -X POST -F file=@URL_FILE http://localhost:8089/upload
+	curl -X POST -F file=@URL_FILE http://localhost:8089/uploader/
 
 To fetch all events from database use the command:
 
-	curl http://localhost:8089/upload
+	curl http://localhost:8089/uploader/
 
 If you make a get request it will return all events, if you make a post request it will upload your file.
 

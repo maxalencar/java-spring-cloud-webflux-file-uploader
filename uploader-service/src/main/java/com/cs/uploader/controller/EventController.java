@@ -3,6 +3,7 @@ package com.cs.uploader.controller;
 import java.io.IOException;
 import java.lang.invoke.MethodHandles;
 import java.util.Collections;
+import java.util.Objects;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,12 +42,13 @@ public class EventController {
 	
 	@GetMapping
 	public Flux<Event> getAllEvents() {
+		logger.info("Getting all events...");
 		return service.findAll();
 	}
 	
-	@PostMapping
+	@PostMapping()
 	public Mono<ResponseEntity<Void>> upload(@RequestPart("file") FilePart part) {
-		logger.info("Uploading file " + part.filename() + "...");
+        logger.info("Uploading file {}...", part.filename());
 		
 		ObjectMapper mapper = new ObjectMapper();
 		StringDecoder decoder = StringDecoder.allMimeTypes();
@@ -60,11 +62,11 @@ public class EventController {
 		
 		events.subscribe(groupedFlux -> {
             groupedFlux.collectList().doOnNext(list -> {
-            	if (!list.isEmpty() && list.size() == 2) {
+            	if (list.size() == 2) {
             		Event eventFinished = list.get(0);
             		Event eventOpen = list.get(1);
             		
-            		if (eventFinished.getState() != eventOpen.getState()) {
+            		if (!Objects.equals(eventFinished.getState(), eventOpen.getState())) {
             			eventFinished.setTimestamp(eventFinished.getTimestamp() - eventOpen.getTimestamp());
 	            		eventFinished.setAlert(eventFinished.getTimestamp() > 4);
 	            		
@@ -72,7 +74,7 @@ public class EventController {
             		}
             	}
             }).subscribe(list -> {
-            	logger.info("Saving Event ID: " + groupedFlux.key() + ", events: " + list);
+                logger.info("Saving Event ID: {}, events: {}", groupedFlux.key(), list);
             });
         });
 		

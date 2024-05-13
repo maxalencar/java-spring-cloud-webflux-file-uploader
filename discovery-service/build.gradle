@@ -21,6 +21,7 @@ java {
 
 dependencies {
 	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-server'
+//	developmentOnly 'org.springframework.boot:spring-boot-docker-compose'
 }
 
 dependencyManagement {

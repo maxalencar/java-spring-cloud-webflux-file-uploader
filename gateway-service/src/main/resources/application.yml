@@ -14,6 +14,9 @@ logging:
 spring:
   application:
     name: gateway-service
+  docker:
+    enabled: true
+    file: compose.yaml
   cloud:
     gateway:
       globalcors:
@@ -28,6 +31,6 @@ spring:
       - id: uploader-service
         uri: lb://uploader-service
         predicates:
-        - Path=/upload/**
+        - Path=/uploader/**
         filters:
-        - RewritePath=/upload/(?<path>.*), /$\{path}
+        - RewritePath=/uploader/(?<path>.*), /$\{path}
