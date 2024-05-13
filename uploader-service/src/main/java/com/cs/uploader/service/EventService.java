@@ -13,8 +13,8 @@ import reactor.core.publisher.Mono;
  *
  */
 public interface EventService {
-	
 	Flux<Event> findAll();
+	Mono<Event> findById(String id);
 	Mono<Event> save(Event event);
 	Flux<Event> saveAll(List<Event> events);	
 }
