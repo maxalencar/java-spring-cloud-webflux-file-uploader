@@ -6,7 +6,7 @@ This project provides a reactive microservice inside Spring Cloud ecosystem, whi
 ##### Getting Set Up
 
 Before working on CS Event Uploader, you'll need to ensure you have a few requirements installed; all of which are available across Linux, Mac OS X and Windows.<br> 
-You will need Java 21 and Gradle
+You will need Java 23 and Gradle
 
 ##### Gradle
 
