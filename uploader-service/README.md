@@ -1,12 +1,24 @@
-# Uploader
+# Uploader Service
 
-A reactive microservice inside Spring Cloud ecosystem, which contains such the elements like service discovery with Eureka, load balancing and API gateway using Spring Cloud Gateway (also based on WebFlux and Netty).
+Provides a **reactive microservice** built with Spring Cloud, WebFlux, and Netty.  
+It integrates with Eureka for service discovery, load‑balancing, and the API gateway via Spring Cloud Gateway.
 
+The service stores events in a MongoDB database, using Spring Data MongoDB for persistence.
 
-#### Running the project
+## Prerequisites
 
-Run the project and verify it's working
+- Java 23
+- Gradle (wrapper included)
 
-<code> gradle bootRun </code>
+## Running the service
 
-[@maxalencar](https://github.com/maxalencar)
+```bash
+cd uploader-service
+./gradlew bootRun
+```
+
+The uploader listens on port **2222**.
+
+---
+
+[Max Alencar](https://github.com/maxalencar)

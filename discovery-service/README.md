@@ -1,13 +1,22 @@
-## Discovery
+## Discovery Service
 
-Service Discovery: Eureka instances can be registered and clients can discover the instances using Spring-managed beans
+Provides **service discovery** via Spring Cloud **Eureka**.  
+Clients can register themselves and discover other instances using Spring‑managed beans.
 
-Service Discovery: an embedded Eureka server can be created with declarative Java configuration
+### Prerequisites
 
-#### Running the project
+- Java 23
+- Gradle (wrapper included)
 
-Run the project and verify it's working
+### Running the service
 
-<code> gradle bootRun </code>
+```bash
+cd discovery-service
+./gradlew bootRun
+```
 
-[@maxalencar](https://github.com/maxalencar)
+The Eureka server starts on port **8761**.
+
+---
+
+[Max Alencar](https://github.com/maxalencar)

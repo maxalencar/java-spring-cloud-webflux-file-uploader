@@ -1,11 +1,22 @@
-## Gateway
+## Gateway Service
 
-Spring Cloud Gateway aims to provide a simple, yet effective way to route to APIs and provide cross cutting concerns to them such as: security, monitoring/metrics, and resiliency.
+Implements **Spring Cloud Gateway** for routing requests to downstream APIs and applying cross‑cutting concerns such as security, metrics, and resiliency.
 
-#### Running the project
+### Prerequisites
 
-Run the project and verify it's working
+- Java 23
+- Gradle (wrapper included)
+- Spring Cloud version: 2022.0.4
 
-<code> gradle bootRun </code>
+### Running the service
 
-[@maxalencar](https://github.com/maxalencar)
+```bash
+cd gateway-service
+./gradlew bootRun
+```
+
+The gateway listens on port **8090**.
+
+---
+
+[Max Alencar](https://github.com/maxalencar)
