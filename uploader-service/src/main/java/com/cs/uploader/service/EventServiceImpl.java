@@ -21,7 +21,7 @@ public class EventServiceImpl implements EventService {
 
     private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
-    private EventRepository repository;
+    private final EventRepository repository;
 
     public EventServiceImpl(EventRepository repository) {
         this.repository = repository;
@@ -42,11 +42,12 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public Flux<Event> saveAll(List<Event> events) {
-        return Flux.fromIterable(events).doOnNext(event -> {
-            logger.info("Creating event with details {}", event);
-            repository.save(event);
-        }).doOnError(throwable -> {
-            logger.error("Error in creating event", throwable);
-        }).log();
+        return Flux.fromIterable(events)
+            .flatMap(event -> {
+                logger.info("Creating event with details {}", event);
+                return repository.save(event);
+            })
+            .doOnError(throwable -> logger.error("Error in creating event", throwable))
+            .log();
     }
 }

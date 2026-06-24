@@ -1,43 +1,48 @@
 package com.cs.uploader.controller;
 
-
-
-import java.io.FileNotFoundException;
-
+import com.cs.uploader.model.Event;
+import com.cs.uploader.service.EventService;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.mockito.Mockito;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.client.MultipartBodyBuilder;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.web.reactive.function.BodyInserters;
+import reactor.core.publisher.Mono;
+import java.io.FileNotFoundException;
 
 /**
- * 
- * @author Max.Alencar
- *
+ * Simplified controller tests without Spring Boot test infrastructure.
+ * Directly binds the {@link EventController} to a {@link WebTestClient}.
  */
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class EventControllerTests {
+class EventControllerTests {
 
-	@Autowired
-    private WebTestClient webTestClient;
-    
-	@Test
-	public void uploadNoFile() {
-		this.webTestClient.post()
-        .exchange().expectStatus().isBadRequest()
-        .expectBody(Void.class);
-	}
+    @Test
+    void uploadNoFile() {
+        EventService mockService = Mockito.mock(EventService.class);
+        EventController controller = new EventController(mockService);
+        WebTestClient client = WebTestClient.bindToController(controller).build();
 
-	@Test
-	public void uploadFile() throws FileNotFoundException {
-		MultipartBodyBuilder bodyBuilder = new MultipartBodyBuilder();
-		bodyBuilder.part("file", new ClassPathResource("upload-file-test.txt"));
+        client.post()
+                .exchange()
+                .expectStatus().isBadRequest();
+    }
 
-		this.webTestClient.post()
-		.body(BodyInserters.fromMultipartData(bodyBuilder.build()))
-        .exchange().expectStatus().isOk()
-        .expectBody(Void.class);
-	}
+    @Test
+    void uploadFile() {
+        EventService mockService = Mockito.mock(EventService.class);
+        // mock save returns empty Mono
+        Mockito.when(mockService.save(Mockito.any(Event.class))).thenReturn(Mono.empty());
+
+        EventController controller = new EventController(mockService);
+        WebTestClient client = WebTestClient.bindToController(controller).build();
+
+        MultipartBodyBuilder bodyBuilder = new MultipartBodyBuilder();
+        bodyBuilder.part("file", new ClassPathResource("upload-file-test.txt"));
+
+        client.post()
+                .body(BodyInserters.fromMultipartData(bodyBuilder.build()))
+                .exchange()
+                .expectStatus().isOk();
+    }
 }

@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
-import reactor.core.publisher.GroupedFlux;
 import reactor.core.publisher.Mono;
 
 import java.io.IOException;
@@ -30,7 +29,7 @@ public class EventController {
 
     private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
-    private EventService service;
+    private final EventService service;
 
     public EventController(EventService service) {
         this.service = service;
@@ -43,7 +42,11 @@ public class EventController {
     }
 
     @PostMapping()
-    public Mono<ResponseEntity<Void>> upload(@RequestPart("file") FilePart part) {
+    public Mono<ResponseEntity<Void>> upload(@RequestPart(value = "file", required = false) FilePart part) {
+        if (part == null) {
+            logger.info("No file part provided, returning Bad Request");
+            return Mono.just(ResponseEntity.badRequest().build());
+        }
         logger.info("Uploading file {}...", part.filename());
 
         ObjectMapper mapper = new ObjectMapper();
@@ -51,31 +54,26 @@ public class EventController {
 
         Flux<String> output = decoder.decode(part.content(), ResolvableType.forClass(String.class), null, Collections.emptyMap());
 
-        Flux<GroupedFlux<String, Event>> events = output.sort().map(x -> {
-                    return readValue(mapper, x);
+        // Process content into events, compute finished events, and persist them
+        Flux<Event> processed = output.sort()
+            .map(x -> readValue(mapper, x))
+            .groupBy(Event::getId)
+            .flatMap(groupedFlux -> groupedFlux.collectList()
+                .filter(list -> list.size() == 2)
+                .filter(list -> !Objects.equals(list.getFirst().getState(), list.get(1).getState()))
+                .map(list -> {
+                    Event finished = list.get(0);
+                    Event open = list.get(1);
+                    finished.setTimestamp(finished.getTimestamp() - open.getTimestamp());
+                    finished.setAlert(finished.getTimestamp() > 4);
+                    return finished;
                 })
-                .groupBy(Event::getId);
+            );
 
-        events.subscribe(groupedFlux -> {
-            groupedFlux.collectList().doOnNext(list -> {
-                if (list.size() == 2) {
-                    Event eventFinished = list.get(0);
-                    Event eventOpen = list.get(1);
-
-                    if (!Objects.equals(eventFinished.getState(), eventOpen.getState())) {
-                        eventFinished.setTimestamp(eventFinished.getTimestamp() - eventOpen.getTimestamp());
-                        eventFinished.setAlert(eventFinished.getTimestamp() > 4);
-
-                        logger.info("Saving Event: {}", eventFinished);
-                        Mono<Event> eventMono = service.save(eventFinished);
-                        logger.info("Event Saved: {}", eventMono.log());
-                    }
-                }
-            }).subscribe(list -> {
-                logger.info("Saving Event ID: {}, events: {}", groupedFlux.key(), list);
-            });
-        });
-
+        // Trigger async save for each event without awaiting completion
+        processed
+            .doOnNext(event -> service.save(event).subscribe())
+            .subscribe(); // fire-and-forget
         return Mono.just(ResponseEntity.ok().<Void>build());
     }
 

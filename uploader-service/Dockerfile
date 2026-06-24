@@ -1,5 +1,5 @@
 # Use an OpenJDK runtime as a base image
-FROM openjdk:23-slim
+FROM ghcr.io/graalvm/jdk-community:25
 
 # Set the working directory inside the container
 WORKDIR /app

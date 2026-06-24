@@ -8,3 +8,6 @@ bin
 db
 gradle
 gradlew*
+graphify-out
+agents
+**CLAUDE**

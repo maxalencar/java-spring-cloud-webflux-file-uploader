@@ -1,63 +1,84 @@
-## CS Event Uploader
-**The CS Event Uploader**
+# CS Event Uploader
 
-This project provides a reactive microservice inside Spring Cloud ecosystem, which contains such the elements like service discovery with Eureka, load balancing and API gateway using Spring Cloud Gateway (also based on WebFlux and Netty).
+**Reactive microservice** built with Spring Cloud, WebFlux, and Netty.  
+It includes service discovery (Eureka), load‑balancing, and an API gateway (Spring Cloud Gateway).
 
-##### Getting Set Up
+## Prerequisites
 
-Before working on CS Event Uploader, you'll need to ensure you have a few requirements installed; all of which are available across Linux, Mac OS X and Windows.<br> 
-You will need Java 23 and Gradle
+- Java 23
+- Gradle (wrapper included)
+- Docker (optional, for running the full stack)
 
-##### Gradle
+## Building & Running Services
 
-[Gradle](https://gradle.org/) is used for building, distributing and running CS Event Uploader.
+### Individual services
 
-You should be familiar with working with the Gradle, at least to a basic degree, before beginning work on this project.
+Run each service from its directory:
 
-#### Running the project
+```bash
+# Discovery Service
+cd discovery-service
+./gradlew bootRun
 
-Run the project and verify it's working
-Now, you are ready to run CS Event Uploader with the following command. 
+# Uploader Service
+cd uploader-service
+./gradlew bootRun
 
-1. Inside the discovery-service folder run the code below:
-
-   gradle bootRun
-
-2. Inside the uploader-service folder run the code below:
-
-   gradle bootRun
-
-3. Inside the gateway-service folder run the code below:
-
-   gradle bootRun
-
-[//]: # (From the root folder run the code below:)
-
-[//]: # ()
-[//]: # (	gradle bootRun)
-
-#### File Format
-
-```code
-{"id":"scsmbstgrd", "state":"FINISHED", "type":"APPLICATION_LOG", "host":"123456", "timestamp":1491377495217} 
-{"id":"scsmbstgra", "state":"STARTED", "type":"APPLICATION_LOG", "host":"12345", "timestamp":1491377495212} 
-{"id":"scsmbstgrb", "state":"STARTED", "timestamp":1491377495213} 
-{"id":"scsmbstgrd", "state":"STARTED", "type":"APPLICATION_LOG", "host":"123456", "timestamp":1491377495202} 
-{"id":"scsmbstgrc", "state":"FINISHED", "timestamp":1491377495218} 
-{"id":"scsmbstgra", "state":"FINISHED", "type":"APPLICATION_LOG", "host":"12345", "timestamp":1491377495217} 
-{"id":"scsmbstgrc", "state":"STARTED", "timestamp":1491377495210} 
-{"id":"scsmbstgrb", "state":"FINISHED", "timestamp":1491377495216}
+# Gateway Service
+cd gateway-service
+./gradlew bootRun
 ```
 
-If you want to send it by command line it works as well, for example using [cURL](https://curl.haxx.se/), see example below.
+### Full stack with Docker Compose
 
-	curl -X POST -F file=@URL_FILE http://localhost:8089/uploader/
+Start all services, MongoDB, and the admin UI in one command:
 
-To fetch all events from database use the command:
+```bash
+docker compose up --build
+```
 
-	curl http://localhost:8089/uploader/
+The services listen on:
 
-If you make a get request it will return all events, if you make a post request it will upload your file.
+| Service | Port |
+|---------|------|
+| Eureka (Discovery) | 8761 |
+| Gateway | 8090 |
+| Uploader | 2222 |
+| MongoDB | 27017 |
+| Mongo‑Express | 8081 |
 
-[@maxalencar](https://github.com/maxalencar)
+Stop the stack:
 
+```bash
+docker compose down
+```
+
+## Event File Format
+
+```json
+{"id":"scsmbstgrd","state":"FINISHED","type":"APPLICATION_LOG","host":"123456","timestamp":1491377495217}
+```
+
+(Examples of valid events are listed in the original file.)
+
+## API Usage
+
+Upload events:
+
+```bash
+curl -X POST -F file=@EVENTS.json http://localhost:8089/uploader/
+```
+
+Fetch all stored events:
+
+```bash
+curl http://localhost:8089/uploader/
+```
+
+## Contributing
+
+Feel free to open issues or submit pull requests. Follow the project's coding standards and run tests before submitting changes.
+
+---
+
+[Max Alencar](https://github.com/maxalencar)
